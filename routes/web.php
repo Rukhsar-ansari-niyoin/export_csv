@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataController;
 use Faker\Guesser\Name;
-
+use App\Http\Controllers\MailController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,3 +44,4 @@ Route::get('/verify_details', function () {
 });
 Route::get('/form_success',[DataController::class,"form_success"])->name('form_success');
 require __DIR__.'/auth.php';
+
