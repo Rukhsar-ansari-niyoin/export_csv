@@ -325,7 +325,7 @@ class DataController extends Controller
     }
 
     public function TwilioSMS(){
-        $receiverNumber = "+917974978085";
+        $receiverNumber = "+919329939101";
         $message = "Otp verification code 123456";
   
         try {
