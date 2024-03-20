@@ -45,3 +45,4 @@ Route::get('/verify_details', function () {
 Route::get('/form_success',[DataController::class,"form_success"])->name('form_success');
 require __DIR__.'/auth.php';
 
+Route::get('/sms', [DataController::class,"TwilioSMS"])->name('TwilioSMS');
