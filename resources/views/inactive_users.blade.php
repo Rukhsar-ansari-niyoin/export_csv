@@ -1,10 +1,15 @@
 <x-app-layout>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
-    
     <div class="container mt-5">
-        <a href="{{route('export')}}" class="btn btn-primary float-right m-3">Export CSV</a>
-    </div>
+    <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="file" name="file" class="form-control">
+                <br>
+                <button class="btn btn-success">Import User Data</button>
+            </form>
+</div>
+    
     <div class="container">
     @if (session('success'))
                     <div class="alert alert-success">
@@ -12,7 +17,7 @@
                     </div>
                     @endif
         <table class="table">
-        <h6>Active Data</h6>
+        <h6>Inactive Data</h6>
             <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -30,7 +35,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $.ajax({
-                url: '{{route("fetchList")}}',
+                url: '{{route("inactive_users_data")}}',
                 type: 'get',
                 dataType: 'JSON',
                 success: function(response) {

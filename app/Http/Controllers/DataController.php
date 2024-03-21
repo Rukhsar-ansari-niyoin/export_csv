@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Exports\DataExport;
+use App\Imports\DataImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Data;
 use Illuminate\Support\Facades\File;
@@ -300,6 +301,13 @@ class DataController extends Controller
     {
         return Excel::download(new DataExport, 'Data.csv');
     }
+
+    public function import() 
+    {
+        Excel::import(new DataImport,request()->file('file'));
+               
+        return back();
+    }
     public function delete($id)
     {
         $record = Data::find($id);
@@ -345,4 +353,12 @@ class DataController extends Controller
             dd("Error: ". $e->getMessage());
         }
     } 
+
+    public function inactive_users(){
+     return view("inactive_users");
+    }
+    public function inactive_users_data(){
+        $data = Data::where('is_activated', 0)->get();
+        return response()->json($data);
+    }
 }

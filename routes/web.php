@@ -28,11 +28,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
 });
 
 Route::post('FormSubmit',[DataController::class,"insert"])->name('FormSubmit');
 Route::get('fetchList',[DataController::class,"fetchList"])->name('fetchList');
+
 Route::get('/export', [DataController::class,"export"])->name('export');
+Route::post('import', [DataController::class,'import'])->name('import');
 Route::get('/edit/{id}', [DataController::class, 'fetchDataById'])->name('edit');
 Route::post('update/{id}', [DataController::class, 'edit'])->name('update');
 
@@ -46,3 +49,6 @@ Route::get('/form_success',[DataController::class,"form_success"])->name('form_s
 require __DIR__.'/auth.php';
 
 Route::get('/sms', [DataController::class,"TwilioSMS"])->name('TwilioSMS');
+
+Route::get('inactive_users',[DataController::class,"inactive_users"])->name('inactive.users');
+Route::get('inactive_users_data',[DataController::class,"inactive_users_data"])->name('inactive_users_data');
