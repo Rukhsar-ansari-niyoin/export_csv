@@ -127,10 +127,118 @@ class DataController extends Controller
        
     }
 
+    public function verificationFormSubmit(){
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+           
+            'pincode' => 'required|numeric',
+            'state' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'dob' => 'required',
+            'type' => 'required',
+            'firm_name' => 'required|string',
+            'pancardImg' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'aadharFimg' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'aadharBimg' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'drivingFimg' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'drivingBimg' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'voterIDFimg' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'voterIDBimg' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        if (Data::where('email', $request->email)->exists()) {
+            return redirect()->back()->withInput()->withErrors(['email' => 'Email already exists.']);
+        }
+
+        if ($request->type === 'aadhar') {
+            $data['aadhar'] = $request->aadhar;
+            $data['pancard'] = $request->pancard;
+
+            if ($request->hasFile('aadharFimg')) {
+                $aadharFimg = $request->file('aadharFimg');
+                $aadharFimgName = date('YmdHis') . '_' . uniqid() . '.' . $aadharFimg->getClientOriginalExtension();
+                $aadharFimg->move(public_path('upload'), $aadharFimgName);
+                $data['aadharFimg'] = 'upload/' . $aadharFimgName;
+            }
+
+            if ($request->hasFile('aadharBimg')) {
+                $aadharBimg = $request->file('aadharBimg');
+                $aadharBimgName = date('YmdHis') . '_' . uniqid() . '.' . $aadharBimg->getClientOriginalExtension();
+                $aadharBimg->move(public_path('upload'), $aadharBimgName);
+                $data['aadharBimg'] = 'upload/' . $aadharBimgName;
+            }
+
+            if ($request->hasFile('pancardImg')) {
+                $pancardImg = $request->file('pancardImg');
+                $pancardImgName = date('YmdHis') . '_' . uniqid() . '.' . $pancardImg->getClientOriginalExtension();
+                $pancardImg->move(public_path('upload'), $pancardImgName);
+                $data['pancardImg'] = 'upload/' . $pancardImgName;
+            }
+        } elseif ($request->type === 'without_aadhar') {
+            $data['pancard'] = $request->pancard;
+            $data['driving'] = $request->driving;
+            $data['voterID'] = $request->voterID;
+
+            if ($request->hasFile('pancardImg')) {
+                $pancardImg = $request->file('pancardImg');
+                $pancardImgName = date('YmdHis') . '_' . uniqid() . '.' . $pancardImg->getClientOriginalExtension();
+                $pancardImg->move(public_path('upload'), $pancardImgName);
+                $data['pancardImg'] = 'upload/' . $pancardImgName;
+            }
+
+            if ($request->hasFile('drivingFimg')) {
+                $drivingFimg = $request->file('drivingFimg');
+                $drivingFimgName = date('YmdHis') . '_' . uniqid() . '.' . $drivingFimg->getClientOriginalExtension();
+                $drivingFimg->move(public_path('upload'), $drivingFimgName);
+                $data['drivingFimg'] = 'upload/' . $drivingFimgName;
+            }
+
+            if ($request->hasFile('drivingBimg')) {
+                $drivingBimg = $request->file('drivingBimg');
+                $drivingBimgName = date('YmdHis') . '_' . uniqid() . '.' . $drivingBimg->getClientOriginalExtension();
+                $drivingBimg->move(public_path('upload'), $drivingBimgName);
+                $data['drivingBimg'] = 'upload/' . $drivingBimgName;
+            }
+
+            if ($request->hasFile('voterIDFimg')) {
+                $voterIDFimg = $request->file('voterIDFimg');
+                $voterIDFimgName = date('YmdHis') . '_' . uniqid() . '.' . $voterIDFimg->getClientOriginalExtension();
+                $voterIDFimg->move(public_path('upload'), $voterIDFimgName);
+                $data['voterFimg'] = 'upload/' . $voterIDFimgName;
+            }
+
+            if ($request->hasFile('voterIDBimg')) {
+                $voterIDBimg = $request->file('voterIDBimg');
+                $voterIDBimgName = date('YmdHis') . '_' . uniqid() . '.' . $voterIDBimg->getClientOriginalExtension();
+                $voterIDBimg->move(public_path('upload'), $voterIDBimgName);
+                $data['voterBimg'] = 'upload/' . $voterIDBimgName;
+            }
+        } else {
+            return redirect('/')->with('error', 'Invalid form submission');
+        }
+
+        $data['type'] = $request->type;
+        $data['merchant_code'] = $this->generateRandomCode();
+        $email = $request->input('email');
+        $data = Data::where('email', $email)->first();
+
+        if ($data) {
+            
+            $data->phone =$request->input('phone');
+            $data->merchant_code =  $data['merchant_code']; 
+            $data->save();
+            return redirect('/dashboard')->with('success', 'Form data submitted successfully!');
+        }
+        else {
+            return redirect('/')->with('error', 'Invalid form submission');
+        }
+
+    }
+
     public function verify_details(Request $request)
     {
-       echo  $email = $request->input('email');
-       echo  $email_otp = $request->input('email_otp');
+        $email = $request->input('email');
+         $email_otp = $request->input('email_otp');
 
         $data = Data::where('email', $email)->first();
 
@@ -151,7 +259,7 @@ class DataController extends Controller
     }
     public function mobile_verify_details(Request $request)
     {
-        $phone = $request->input('phone');
+        $email = $request->input('email');
         $mobile_otp = $request->input('mobile_otp');
 
         $data = Data::where('email', $email)->first();
@@ -416,8 +524,10 @@ class DataController extends Controller
 
 
  }
- public function mobileOtp(Request $request, $id){
+ public function mobileOtp(Request $request){
     $otp = mt_rand(100000, 999999);
+    $email = $request->input('email');
+   $data = Data::where('email', $email)->first();
     $data['phone'] = $request->input('phone');
       $data['mobile_otp'] = $otp;
       $receiverNumber = "+919329939101";
@@ -432,9 +542,13 @@ class DataController extends Controller
         $client->messages->create($receiverNumber, [
             'from' => $twilio_number, 
             'body' => $message]);
-
+            
             if ($data) {
-                Data::create($data);
+               
+                    $data->phone =$request->input('phone');
+                    $data->mobile_otp =  $otp;
+                    $data->save();
+               
             return redirect('/mobile_verify_details')->with('success', 'Form data submitted successfully!');
             }
             else {

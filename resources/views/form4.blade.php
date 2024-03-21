@@ -41,24 +41,15 @@
 
                            
                           
-                            <div class="col-md-6">
-                                <label for="inputName" class="form-label">Enter Phone Number</label>
-                                <input type="text" class="form-control" id="inputNumber" name="phone" placeholder="Enter Phone Number">
-                            </div>
                            
                            
-                            <div class="col-md-6">
                            
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Mobile verify</button>
-                           </div>
+                           
                            <div class="col-md-6">
                                 <label for="inputEmail4" class="form-label">Enter Email</label>
-                                <input type="email" class="form-control" id="inputEmail4" name="email" placeholder="Enter Email">
+                                <input type="text" class="form-control" id="inputEmail" name="email" value="@if(session('email')){{session('email')}}@endif">
                             </div>
-                            <div class="col-md-6">
                            
-                           <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModalemail">email verify</button>
-                          </div>
                            <div class="col-md-6">
                                 <label for="inputName" class="form-label">Enter Full Name</label>
                                 <input type="text" class="form-control" id="inputName" name="name" placeholder="Enter Full Name">

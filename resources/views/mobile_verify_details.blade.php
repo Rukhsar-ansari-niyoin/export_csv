@@ -26,13 +26,14 @@
                         <h5 class="modal-title"><img width="220px" src="{{asset('images/logo.png')}}" alt="Logo"></h5>
                     </div>
                     <div class="modal-body">
-                        <form class="row g-3" id="myForm" method="post" action="{{ route('verify_details') }}" enctype="multipart/form-data">
+                        <form class="row g-3" id="myForm" method="post" action="{{ route('mobile_verify_details') }}" enctype="multipart/form-data">
                             @csrf
 
                             <div class="col-md-12">
-                                <label for="inputEmail_otp" class="form-label">Enter Email OTP</label>
+                                <label for="inputEmail_otp" class="form-label">Enter Mobile OTP</label>
                                 <input type="hidden" class="form-control" id="inputEmail" name="email" value="@if(session('email')){{session('email')}}@endif">
-                                <input type="text" class="form-control" id="inputEmail_otp" name="email_otp" placeholder="Enter Email OTP">
+                                <input type="hidden" class="form-control"  name="phone" value="@if(session('phone')){{session('phone')}}@endif">
+                                <input type="text" class="form-control" id="inputEmail_otp" name="mobile_otp" placeholder="Enter mobile OTP">
                             </div>
 
 

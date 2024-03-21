@@ -42,10 +42,13 @@ Route::post('update/{id}', [DataController::class, 'edit'])->name('update');
 Route::get('/delete/{id}', [DataController::class, 'delete'])->name('delete');
 
 Route::post('verify_details', [DataController::class, 'verify_details'])->name('verify_details');
+Route::post('mobile_verify_details', [DataController::class, 'mobile_verify_details'])->name('mobile_verify_details');
+
 Route::post('emailOtp', [DataController::class, 'emailOtp'])->name('emailOtp');
 Route::post('mobileOtp', [DataController::class, 'mobileOtp'])->name('mobileOtp');
 
 Route::get('/form2', [DataController::class,"form2"])->name('form2');
+Route::get('/form4', [DataController::class,"form4"])->name('form4');
 Route::get('/verify_details', function () {
     return view('verify_details');
 });
