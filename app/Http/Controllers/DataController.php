@@ -26,13 +26,13 @@ class DataController extends Controller
             'dob' => 'required',
             'type' => 'required',
             'firm_name' => 'required|string',
-            'pancardImg' => 'nullable|image|mimes:jpg,jpeg|max:2048',
-            'aadharFimg' => 'nullable|image|mimes:jpg,jpeg|max:2048',
-            'aadharBimg' => 'nullable|image|mimes:jpg,jpeg|max:2048',
-            'drivingFimg' => 'nullable|image|mimes:jpg,jpeg|max:2048',
-            'drivingBimg' => 'nullable|image|mimes:jpg,jpeg|max:2048',
-            'voterIDFimg' => 'nullable|image|mimes:jpg,jpeg|max:2048',
-            'voterIDBimg' => 'nullable|image|mimes:jpg,jpeg|max:2048',
+            'pancardImg' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'aadharFimg' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'aadharBimg' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'drivingFimg' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'drivingBimg' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'voterIDFimg' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'voterIDBimg' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
         if (Data::where('email', $request->email)->exists()) {
             return redirect()->back()->withInput()->withErrors(['email' => 'Email already exists.']);
@@ -107,24 +107,30 @@ class DataController extends Controller
 
         $data['type'] = $request->type;
         $data['merchant_code'] = $this->generateRandomCode();
-        $otp = mt_rand(100000, 999999);
-        $data['email_otp'] = $otp;
-        $mailData = [
+       // $otp = mt_rand(100000, 999999);
+       // $data['email_otp'] = $otp;
+        /* $mailData = [
             'title' => 'Saral Pe Verification OTP',
             'otp' => $otp,
         ];
         if (Mail::to($request->input('email'))->send(new EmailOTP($mailData))) {
             Data::create($data);
         }
-        $request->session()->put('email', $request->email);
-
-        return redirect('/verify_details')->with('success', 'Form data submitted successfully!');
+        $request->session()->put('email', $request->email); */
+        if ($data) {
+            Data::create($data);
+        return redirect('/inactive_users')->with('success', 'Form data submitted successfully!');
+        }
+        else {
+            return redirect('/')->with('error', 'Invalid form submission');
+        }
+       
     }
 
     public function verify_details(Request $request)
     {
-        $email = $request->input('email');
-        $email_otp = $request->input('email_otp');
+       echo  $email = $request->input('email');
+       echo  $email_otp = $request->input('email_otp');
 
         $data = Data::where('email', $email)->first();
 
@@ -134,7 +140,29 @@ class DataController extends Controller
                 $data->email_otp = null;
                 $data->save();
 
-                return redirect('/form_success')->with(['message' => 'Details verified successfully', 'activated' => true]);
+                return redirect('/form2')->with(['message' => 'Details verified successfully', 'activated' => true]);
+                exit();
+            } else {
+                return redirect()->back()->withInput()->withErrors(['email' => 'Invalid Email OTP.']);;
+            }
+        } else {
+            return redirect()->back()->withInput()->withErrors(['email' => 'No data found Please Resubmit Form']);;
+        }
+    }
+    public function mobile_verify_details(Request $request)
+    {
+        $phone = $request->input('phone');
+        $mobile_otp = $request->input('mobile_otp');
+
+        $data = Data::where('email', $email)->first();
+
+        if ($data) {
+            if ($data->mobile_otp == $mobile_otp) {
+                $data->mobile_is_activated = true;
+                $data->mobile_otp = null;
+                $data->save();
+
+                return redirect('/form4')->with(['message' => 'Details verified successfully', 'activated' => true]);
             } else {
                 return redirect()->back()->withInput()->withErrors(['email' => 'Invalid Email OTP.']);;
             }
@@ -361,4 +389,72 @@ class DataController extends Controller
         $data = Data::where('is_activated', 0)->get();
         return response()->json($data);
     }
+
+    public function verfication_form(){
+        return view("form1");
+    }
+ public function emailOtp(Request $request){
+      $otp = mt_rand(100000, 999999);
+      $data['email'] = $request->input('email');
+        $data['email_otp'] = $otp;
+         $mailData = [
+            'title' => 'Saral Pe Verification OTP',
+            'otp' => $otp,
+        ];
+        if (Mail::to($request->input('email'))->send(new EmailOTP($mailData))) {
+           
+        }
+        $request->session()->put('email', $request->email); 
+        if ($data) {
+            Data::create($data);
+        return redirect('/verify_details')->with('success', 'Form data submitted successfully!');
+        }
+        else {
+            return redirect('/')->with('error', 'Invalid form submission');
+        }
+
+
+
+ }
+ public function mobileOtp(Request $request, $id){
+    $otp = mt_rand(100000, 999999);
+    $data['phone'] = $request->input('phone');
+      $data['mobile_otp'] = $otp;
+      $receiverNumber = "+919329939101";
+      $message = "Otp verification code $otp";
+      try {
+  
+        $account_sid = getenv("TWILIO_SID");
+        $auth_token = getenv("TWILIO_TOKEN");
+        $twilio_number = getenv("TWILIO_FROM");
+
+        $client = new Client($account_sid, $auth_token);
+        $client->messages->create($receiverNumber, [
+            'from' => $twilio_number, 
+            'body' => $message]);
+
+            if ($data) {
+                Data::create($data);
+            return redirect('/mobile_verify_details')->with('success', 'Form data submitted successfully!');
+            }
+            else {
+                return redirect('/')->with('error', 'Invalid form submission');
+            }
+
+    } catch (Exception $e) {
+        dd("Error: ". $e->getMessage());
+    }
+      
+
+
+
+}
+ 
+ public function form2(){
+    return view("form2");
+ }
+ public function form4(){
+    return view("form4");
+ }
+
 }

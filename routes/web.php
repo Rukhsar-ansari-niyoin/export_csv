@@ -42,8 +42,15 @@ Route::post('update/{id}', [DataController::class, 'edit'])->name('update');
 Route::get('/delete/{id}', [DataController::class, 'delete'])->name('delete');
 
 Route::post('verify_details', [DataController::class, 'verify_details'])->name('verify_details');
+Route::post('emailOtp', [DataController::class, 'emailOtp'])->name('emailOtp');
+Route::post('mobileOtp', [DataController::class, 'mobileOtp'])->name('mobileOtp');
+
+Route::get('/form2', [DataController::class,"form2"])->name('form2');
 Route::get('/verify_details', function () {
     return view('verify_details');
+});
+Route::get('/mobile_verify_details', function () {
+    return view('mobile_verify_details');
 });
 Route::get('/form_success',[DataController::class,"form_success"])->name('form_success');
 require __DIR__.'/auth.php';
@@ -52,3 +59,7 @@ Route::get('/sms', [DataController::class,"TwilioSMS"])->name('TwilioSMS');
 
 Route::get('inactive_users',[DataController::class,"inactive_users"])->name('inactive.users');
 Route::get('inactive_users_data',[DataController::class,"inactive_users_data"])->name('inactive_users_data');
+Route::get('verfication_form',[DataController::class,"verfication_form"])->name('verfication_form');
+Route::post('verificationFormSubmit',[DataController::class,"verificationFormSubmit"])->name('verificationFormSubmit');
+
+
