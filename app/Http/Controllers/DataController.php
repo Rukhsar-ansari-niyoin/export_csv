@@ -127,7 +127,7 @@ class DataController extends Controller
        
     }
 
-    public function verificationFormSubmit(){
+    public function verificationFormSubmit(Request $request){
         $data = $request->validate([
             'name' => 'required|string|max:255',
            
