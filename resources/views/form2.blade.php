@@ -45,7 +45,7 @@
                           
                             <div class="col-md-6">
                                 <label for="inputName" class="form-label">Enter Phone Number</label>
-                                <input type="text" class="form-control" id="inputEmail" name="email" value="@if(session('email')){{session('email')}}@endif">
+                                <input type="hidden" class="form-control" id="inputEmail" name="email" value="@if(session('email')){{session('email')}}@endif">
                                 <input type="text" class="form-control" id="inputNumber" name="phone" placeholder="Enter Phone Number">
                             </div>
 
