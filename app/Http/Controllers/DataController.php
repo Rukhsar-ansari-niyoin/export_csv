@@ -47,21 +47,21 @@ class DataController extends Controller
                 $aadharFimg = $request->file('aadharFimg');
                 $aadharFimgName = date('YmdHis') . '_' . uniqid() . '.' . $aadharFimg->getClientOriginalExtension();
                 $aadharFimg->move(public_path('upload'), $aadharFimgName);
-                $data['aadharFimg'] =  $url = URL::to("/upload/ . $aadharFimgName");
+                $data['aadharFimg'] =  $url = URL::to("/upload/$aadharFimgName");
             }
 
             if ($request->hasFile('aadharBimg')) {
                 $aadharBimg = $request->file('aadharBimg');
                 $aadharBimgName = date('YmdHis') . '_' . uniqid() . '.' . $aadharBimg->getClientOriginalExtension();
                 $aadharBimg->move(public_path('upload'), $aadharBimgName);
-                $data['aadharBimg'] =  URL::to("/upload/ .  $aadharBimgName");
+                $data['aadharBimg'] =  URL::to("/upload/$aadharBimgName");
             }
 
             if ($request->hasFile('pancardImg')) {
                 $pancardImg = $request->file('pancardImg');
                 $pancardImgName = date('YmdHis') . '_' . uniqid() . '.' . $pancardImg->getClientOriginalExtension();
                 $pancardImg->move(public_path('upload'), $pancardImgName);
-                $data['pancardImg'] =  URL::to("/upload/ .  $pancardImgName");
+                $data['pancardImg'] =  URL::to("/upload/$pancardImgName");
             }
         } elseif ($request->type === 'without_aadhar') {
             $data['pancard'] = $request->pancard;
@@ -72,35 +72,35 @@ class DataController extends Controller
                 $pancardImg = $request->file('pancardImg');
                 $pancardImgName = date('YmdHis') . '_' . uniqid() . '.' . $pancardImg->getClientOriginalExtension();
                 $pancardImg->move(public_path('upload'), $pancardImgName);
-                $data['pancardImg'] = URL::to("/upload/ .  $pancardImgName");
+                $data['pancardImg'] = URL::to("/upload/$pancardImgName");
             }
 
             if ($request->hasFile('drivingFimg')) {
                 $drivingFimg = $request->file('drivingFimg');
                 $drivingFimgName = date('YmdHis') . '_' . uniqid() . '.' . $drivingFimg->getClientOriginalExtension();
                 $drivingFimg->move(public_path('upload'), $drivingFimgName);
-                $data['drivingFimg'] = URL::to("/upload/ .'upload/' . $drivingFimgName");
+                $data['drivingFimg'] = URL::to("/upload/$drivingFimgName");
             }
 
             if ($request->hasFile('drivingBimg')) {
                 $drivingBimg = $request->file('drivingBimg');
                 $drivingBimgName = date('YmdHis') . '_' . uniqid() . '.' . $drivingBimg->getClientOriginalExtension();
                 $drivingBimg->move(public_path('upload'), $drivingBimgName);
-                $data['drivingBimg'] = URL::to("/upload/ . $drivingBimgName");
+                $data['drivingBimg'] = URL::to("/upload/$drivingBimgName");
             }
 
             if ($request->hasFile('voterIDFimg')) {
                 $voterIDFimg = $request->file('voterIDFimg');
                 $voterIDFimgName = date('YmdHis') . '_' . uniqid() . '.' . $voterIDFimg->getClientOriginalExtension();
                 $voterIDFimg->move(public_path('upload'), $voterIDFimgName);
-                $data['voterFimg'] = URL::to("/upload/ . $voterIDFimgName");
+                $data['voterFimg'] = URL::to("/upload/$voterIDFimgName");
             }
 
             if ($request->hasFile('voterIDBimg')) {
                 $voterIDBimg = $request->file('voterIDBimg');
                 $voterIDBimgName = date('YmdHis') . '_' . uniqid() . '.' . $voterIDBimg->getClientOriginalExtension();
                 $voterIDBimg->move(public_path('upload'), $voterIDBimgName);
-                $data['voterBimg'] =URL::to("/upload/ .   $voterIDBimgName");
+                $data['voterBimg'] =URL::to("/upload/$voterIDBimgName");
             }
         } else {
             return redirect('/')->with('error', 'Invalid form submission');
@@ -157,21 +157,21 @@ class DataController extends Controller
                 $aadharFimg = $request->file('aadharFimg');
                 $aadharFimgName = date('YmdHis') . '_' . uniqid() . '.' . $aadharFimg->getClientOriginalExtension();
                 $aadharFimg->move(public_path('upload'), $aadharFimgName);
-                $aadharFimg = URL::to("/upload/ . $aadharFimgName");
+                $aadharFimg = URL::to("/upload/$aadharFimgName");
             }
 
             if ($request->hasFile('aadharBimg')) {
                 $aadharBimg = $request->file('aadharBimg');
                 $aadharBimgName = date('YmdHis') . '_' . uniqid() . '.' . $aadharBimg->getClientOriginalExtension();
                 $aadharBimg->move(public_path('upload'), $aadharBimgName);
-                $aadharBimg= URL::to("/upload/ .$aadharBimgName");
+                $aadharBimg= URL::to("/upload/$aadharBimgName");
             }
 
             if ($request->hasFile('pancardImg')) {
                 $pancardImg = $request->file('pancardImg');
                 $pancardImgName = date('YmdHis') . '_' . uniqid() . '.' . $pancardImg->getClientOriginalExtension();
                 $pancardImg->move(public_path('upload'), $pancardImgName);
-                $pancardImg = URL::to("/upload/ .  $pancardImgName");
+                $pancardImg = URL::to("/upload/$pancardImgName");
             }
             $name=$request->name;
             $pincode =$request->pincode;
@@ -212,35 +212,35 @@ class DataController extends Controller
                 $pancardImg = $request->file('pancardImg');
                 $pancardImgName = date('YmdHis') . '_' . uniqid() . '.' . $pancardImg->getClientOriginalExtension();
                 $pancardImg->move(public_path('upload'), $pancardImgName);
-                $pancardImg = URL::to("/upload/ . $pancardImgName");
+                $pancardImg = URL::to("/upload/$pancardImgName");
             }
 
             if ($request->hasFile('drivingFimg')) {
                 $drivingFimg = $request->file('drivingFimg');
                 $drivingFimgName = date('YmdHis') . '_' . uniqid() . '.' . $drivingFimg->getClientOriginalExtension();
                 $drivingFimg->move(public_path('upload'), $drivingFimgName);
-                $drivingFimg = URL::to("/upload/  . $drivingFimgName");
+                $drivingFimg = URL::to("/upload/$drivingFimgName");
             }
 
             if ($request->hasFile('drivingBimg')) {
                 $drivingBimg = $request->file('drivingBimg');
                 $drivingBimgName = date('YmdHis') . '_' . uniqid() . '.' . $drivingBimg->getClientOriginalExtension();
                 $drivingBimg->move(public_path('upload'), $drivingBimgName);
-                $drivingBimg = URL::to("/upload/  . $drivingBimgName");
+                $drivingBimg = URL::to("/upload/$drivingBimgName");
             }
 
             if ($request->hasFile('voterIDFimg')) {
                 $voterIDFimg = $request->file('voterIDFimg');
                 $voterIDFimgName = date('YmdHis') . '_' . uniqid() . '.' . $voterIDFimg->getClientOriginalExtension();
                 $voterIDFimg->move(public_path('upload'), $voterIDFimgName);
-                $voterFimg= URL::to("/upload/  .$voterIDFimgName");
+                $voterFimg= URL::to("/upload/$voterIDFimgName");
             }
 
             if ($request->hasFile('voterIDBimg')) {
                 $voterIDBimg = $request->file('voterIDBimg');
                 $voterIDBimgName = date('YmdHis') . '_' . uniqid() . '.' . $voterIDBimg->getClientOriginalExtension();
                 $voterIDBimg->move(public_path('upload'), $voterIDBimgName);
-                $voterBimg = URL::to("/upload/  . $voterIDBimgName");
+                $voterBimg = URL::to("/upload/$voterIDBimgName");
             }
             $name=$request->name;
             $pincode =$request->pincode;
@@ -373,21 +373,21 @@ class DataController extends Controller
                     $aadharFimg = $request->file('aadharFimg');
                     $aadharFimgName = date('YmdHis') . '_' . uniqid() . '.' . $aadharFimg->getClientOriginalExtension();
                     $aadharFimg->move(public_path('upload'), $aadharFimgName);
-                    $record->update(['aadharFimg' =>  URL::to("/upload/ $aadharFimgName")]);
+                    $record->update(['aadharFimg' =>  URL::to("/upload/$aadharFimgName")]);
                 }
 
                 if ($request->hasFile('aadharBimg')) {
                     $aadharBimg = $request->file('aadharBimg');
                     $aadharBimgName = date('YmdHis') . '_' . uniqid() . '.' . $aadharBimg->getClientOriginalExtension();
                     $aadharBimg->move(public_path('upload'), $aadharBimgName);
-                    $record->update(['aadharBimg' => URL::to("/upload/. $aadharBimgName")]);
+                    $record->update(['aadharBimg' => URL::to("/upload/$aadharBimgName")]);
                 }
 
                 if ($request->hasFile('pancardImg')) {
                     $pancardImg = $request->file('pancardImg');
                     $pancardImgName = date('YmdHis') . '_' . uniqid() . '.' . $pancardImg->getClientOriginalExtension();
                     $pancardImg->move(public_path('upload'), $pancardImgName);
-                    $record->update(['pancardImg' => URL::to("/upload/.'upload/' . $pancardImgName")]);
+                    $record->update(['pancardImg' => URL::to("/upload/$pancardImgName")]);
                 }
                 $record->update(['drivingFimg' => '']);
                 $record->update(['drivingBimg' => '']);
@@ -403,35 +403,35 @@ class DataController extends Controller
                     $pancardImg = $request->file('pancardImg');
                     $pancardImgName = date('YmdHis') . '_' . uniqid() . '.' . $pancardImg->getClientOriginalExtension();
                     $pancardImg->move(public_path('upload'), $pancardImgName);
-                    $record->update(['pancardImg' => URL::to("/upload/. $pancardImgName")]);
+                    $record->update(['pancardImg' => URL::to("/upload/$pancardImgName")]);
                 }
 
                 if ($request->hasFile('drivingFimg')) {
                     $drivingFimg = $request->file('drivingFimg');
                     $drivingFimgName = date('YmdHis') . '_' . uniqid() . '.' . $drivingFimg->getClientOriginalExtension();
                     $drivingFimg->move(public_path('upload'), $drivingFimgName);
-                    $record->update(['drivingFimg' => URL::to("/upload/. $drivingFimgName")]);
+                    $record->update(['drivingFimg' => URL::to("/upload/$drivingFimgName")]);
                 }
 
                 if ($request->hasFile('drivingBimg')) {
                     $drivingBimg = $request->file('drivingBimg');
                     $drivingBimgName = date('YmdHis') . '_' . uniqid() . '.' . $drivingBimg->getClientOriginalExtension();
                     $drivingBimg->move(public_path('upload'), $drivingBimgName);
-                    $record->update(['drivingBimg' => URL::to("/upload/. $drivingBimgName")]);
+                    $record->update(['drivingBimg' => URL::to("/upload/$drivingBimgName")]);
                 }
 
                 if ($request->hasFile('voterIDFimg')) {
                     $voterIDFimg = $request->file('voterIDFimg');
                     $voterIDFimgName = date('YmdHis') . '_' . uniqid() . '.' . $voterIDFimg->getClientOriginalExtension();
                     $voterIDFimg->move(public_path('upload'), $voterIDFimgName);
-                    $record->update(['voterFimg' => URL::to("/upload/. . $voterIDFimgName")]);
+                    $record->update(['voterFimg' => URL::to("/upload/$voterIDFimgName")]);
                 }
 
                 if ($request->hasFile('voterIDBimg')) {
                     $voterIDBimg = $request->file('voterIDBimg');
                     $voterIDBimgName = date('YmdHis') . '_' . uniqid() . '.' . $voterIDBimg->getClientOriginalExtension();
                     $voterIDBimg->move(public_path('upload'), $voterIDBimgName);
-                    $record->update(['voterBimg' => URL::to("/upload/. $voterIDBimgName")]);
+                    $record->update(['voterBimg' => URL::to("/upload/$voterIDBimgName")]);
                 }
                 $record->update(['aadharFimg' => '']);
                 $record->update(['aadharBimg' => '']);
